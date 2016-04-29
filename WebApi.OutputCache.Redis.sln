@@ -7,6 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.OutputCache.Redis", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.OutputCache.Redis.Tests", "WebApi.OutputCache.Redis.Tests\WebApi.OutputCache.Redis.Tests.csproj", "{47A90017-7A35-41CD-8A0F-BAD1ECFB30D3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{25ABF1C2-C49B-44E0-BD80-7E0419E06730}"
+	ProjectSection(SolutionItems) = preProject
+		build.cmd = build.cmd
+		license.txt = license.txt
+		WebApi.OutputCache.Redis\WebApi.OutputCache.Redis.nuspec = WebApi.OutputCache.Redis\WebApi.OutputCache.Redis.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

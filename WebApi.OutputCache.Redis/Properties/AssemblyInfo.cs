@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("WebApi.OutputCache.Redis")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Redis provider for WebApi.OutputCache.V2")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("Don Lockahrt")]
 [assembly: AssemblyProduct("WebApi.OutputCache.Redis")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2016")]
+[assembly: AssemblyCopyright("Copyright © Don Lockhart 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
