@@ -10,16 +10,16 @@ namespace WebApi.OutputCache.Redis
     public class RedisApiOutputCache : IApiOutputCache
     {
         private readonly IDatabase _database;
-        private readonly IServer _server;
+        private readonly IConnectionMultiplexer _connectionMultiplexer;
         private readonly JsonSerializerSettings _settings;
 
-        public RedisApiOutputCache(IServer server) : this(server, -1)
+        public RedisApiOutputCache(IConnectionMultiplexer connectionMultiplexer) : this(connectionMultiplexer, -1)
         {}
 
-        public RedisApiOutputCache(IServer server, int databaseId)
+        public RedisApiOutputCache(IConnectionMultiplexer connectionMultiplexer, int databaseId)
         {
-            _server = server;
-            _database = _server.Multiplexer.GetDatabase(databaseId);
+            _connectionMultiplexer = connectionMultiplexer;
+            _database = _connectionMultiplexer.GetDatabase(databaseId);
             _settings = new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
@@ -30,6 +30,15 @@ namespace WebApi.OutputCache.Redis
 
         public void RemoveStartsWith(string key)
         {
+            var endpoints = _connectionMultiplexer.GetEndPoints();
+            foreach (var endpoint in endpoints)
+            {
+                var server = _connectionMultiplexer.GetServer(endpoint);
+                foreach (var localKey in server.Keys(pattern: key + "*"))
+                {
+                    _database.KeyDelete(localKey);
+                }
+            }
             _database.KeyDelete(string.Concat(key, "*"));
         }
 
@@ -67,7 +76,15 @@ namespace WebApi.OutputCache.Redis
         {
             get
             {
-                return _server.Keys().Select(x => x.ToString());
+                var endpoints = _connectionMultiplexer.GetEndPoints();
+                var keys = new List<string>();
+                foreach (var endpoint in endpoints)
+                {
+                    keys.AddRange(_connectionMultiplexer.GetServer(endpoint)
+                        .Keys()
+                        .Select(x => x.ToString()));
+                }
+                return keys;
             }
         }
     }
